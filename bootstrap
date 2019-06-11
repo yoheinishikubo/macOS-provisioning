@@ -54,3 +54,4 @@ echo -e "\n\n"
 
 ## Install Other Softwares ##
 brew cask install docker
+brew cask install visual-studio-code
