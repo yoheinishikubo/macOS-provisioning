@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+## Install or Update Homebrew ##
+echo 'Installing or Updating Homebrew...'
+which -s brew
+if [[ $? != 0 ]] ; then
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+else
+    brew update
+fi
+echo -e "\n\n"
+
+## Install or Update Google Cloud SDK ##
+echo 'Installing or Updating Google Cloud SDK...'
+which -s gcloud
+if [[ $? != 0 ]] ; then
+    curl https://sdk.cloud.google.com | bash
+else
+    gcloud components update --quiet
+fi
+source ~/.bash_profile
+gcloud components install app-engine-python
+echo -e "\n\n"
+
+## Install or Updating Python3 ##
+echo 'Installing or Updating Python3...'
+brew install pyenv
+
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
+echo 'export PATH="$PYENV_ROOT/shims:$PATH"' >> ~/.bash_profile
+source ~/.bash_profile
+pyenv install 3.6.5
+pyenv global 3.6.5
+pyenv rehash
+pip3 install --upgrade pip
+pip3 install jupyter
+echo -e "\n\n"
+
+## Install or Update Node.js ##
+echo 'Installing or Updating Node.js...'
+which -s nodebrew
+if [[ $? != 0 ]] ; then
+    curl -L git.io/nodebrew | perl - setup
+else
+    nodebrew selfupdate
+fi
+echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bash_profile
+source ~/.bash_profile
+nodebrew install-binary stable
+nodebrew use stable
+npm install -g yarn
+exec -l $SHELL
+echo -e "\n\n"
+
+## Install Other Softwares ##
+brew cask install docker
