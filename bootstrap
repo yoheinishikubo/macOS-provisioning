@@ -8,6 +8,11 @@ if [[ $? != 0 ]] ; then
 else
     brew update
 fi
+
+## Install Other Softwares ##
+brew cask install docker
+brew cask install visual-studio-code
+
 echo -e "\n\n"
 
 ## Install or Update Google Cloud SDK ##
@@ -51,7 +56,3 @@ nodebrew use stable
 npm install -g yarn
 exec -l $SHELL
 echo -e "\n\n"
-
-## Install Other Softwares ##
-brew cask install docker
-brew cask install visual-studio-code
