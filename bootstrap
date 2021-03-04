@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+xcode-select install
+
 ## Install or Update Homebrew ##
 echo 'Installing or Updating Homebrew...'
 which -s brew
@@ -11,7 +13,8 @@ fi
 
 ## Install Other Softwares ##
 brew cask install docker
-brew cask install visual-studio-code
+brew cask install android-studio
+# brew cask install visual-studio-code
 
 echo -e "\n\n"
 
@@ -43,16 +46,27 @@ echo -e "\n\n"
 
 ## Install or Update Node.js ##
 echo 'Installing or Updating Node.js...'
-which -s nodebrew
-if [[ $? != 0 ]] ; then
-    curl -L git.io/nodebrew | perl - setup
-else
-    nodebrew selfupdate
-fi
-echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bash_profile
+git clone git://github.com/nodenv/nodenv.git ~/.nodenv
+echo 'export PATH=$HOME/.nodenv/bin:$PATH' >> ~/.bash_profile
+echo 'eval "$(nodenv init -)"' >> ~/.bash_profile
 source ~/.bash_profile
-nodebrew install-binary stable
-nodebrew use stable
+git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build
+nodenv init
+nodenv install 14.16.0
+nodenv global 14.16.0
+nodenv rehash
+
+# which -s nodebrew
+# if [[ $? != 0 ]] ; then
+#     curl -L git.io/nodebrew | perl - setup
+# else
+#     nodebrew selfupdate
+# fi
+# echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bash_profile
+# source ~/.bash_profile
+# nodebrew install-binary stable
+# nodebrew use stable
+
 npm install -g yarn
 exec -l $SHELL
 echo -e "\n\n"
